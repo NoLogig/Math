@@ -63,49 +63,6 @@ export class MathUtilsService {
 
     goldenRatio = 1.61803398875;
 
-    utils = {
-
-        randomRange: function (min, max) {
-            return min + Math.random() * (max - min);
-        },
-
-        randomInt: function (min, max) {
-            return Math.floor(min + Math.random() * (max - min + 1));
-        },
-
-        roundToPlaces: function (value, places) {
-            let mult = Math.pow(10, places);
-            return Math.round(value * mult) / mult;
-        },
-
-        roundNearest: function (value, nearest) {
-            return Math.round(value / nearest) * nearest;
-        },
-
-        circleCollision: function (c0, c1) {
-            return this.utils.distance(c0, c1) <= c0.radius + c1.radius;
-        },
-
-        circlePointCollision: function (x, y, circle) {
-            return this.utils.distanceXY(x, y, circle.x, circle.y) < circle.radius;
-        },
-
-        pointInRect: function (x, y, rect) {
-            return this.utils.inRange(x, rect.x, rect.x + rect.width) && this.inRange(y, rect.y, rect.y + rect.height);
-        },
-
-        inRange: function (value, min, max) {
-            return value >= Math.min(min, max) && value <= Math.max(min, max);
-        },
-
-        rangeIntersect: function (min0, max0, min1, max1) {
-            return Math.max(min0, max0) >= Math.min(min1, max1) && Math.min(min0, max0) <= Math.max(min1, max1);
-        },
-
-        rectIntersect: function (r0, r1) {
-            return this.utils.rangeIntersect(r0.x, r0.x + r0.width, r1.x, r1.x + r1.width) && this.utils.rangeIntersect(r0.y, r0.y + r0.height, r1.y, r1.y + r1.height);
-        }
-    };
     particle = {
         position: null,
         velocity: null,
@@ -786,6 +743,48 @@ export class MathUtilsService {
 
         return false;
     }
+    
+    randomRange(min, max) {
+        return min + Math.random() * (max - min);
+    }
+
+    randomInt(min, max) {
+        return Math.floor(min + Math.random() * (max - min + 1));
+    }
+
+    roundToPlaces(value, places) {
+        let mult = Math.pow(10, places);
+        return Math.round(value * mult) / mult;
+    }
+
+    roundNearest(value, nearest) {
+        return Math.round(value / nearest) * nearest;
+    }
+
+    circleCollision(c0, c1) {
+        return this.distancePoints(c0, c1) <= c0.radius + c1.radius;
+    }
+
+    circlePointCollision(x, y, circle) {
+        return this.distanceXY(x, y, circle.x, circle.y) < circle.radius;
+    }
+
+    pointInRect(x, y, rect) {
+        return this.inRange(x, rect.x, rect.x + rect.width) && this.inRange(y, rect.y, rect.y + rect.height);
+    }
+
+    inRange(value, min, max) {
+        return value >= Math.min(min, max) && value <= Math.max(min, max);
+    }
+
+    rangeIntersect(min0, max0, min1, max1) {
+        return Math.max(min0, max0) >= Math.min(min1, max1) && Math.min(min0, max0) <= Math.max(min1, max1);
+    }
+
+    rectIntersect(r0, r1) {
+        return this.rangeIntersect(r0.x, r0.x + r0.width, r1.x, r1.x + r1.width) && this.rangeIntersect(r0.y, r0.y + r0.height, r1.y, r1.y + r1.height);
+    }
+
 
 }
 
