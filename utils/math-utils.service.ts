@@ -785,7 +785,6 @@ export class MathUtilsService {
         return this.rangeIntersect(r0.x, r0.x + r0.width, r1.x, r1.x + r1.width) && this.rangeIntersect(r0.y, r0.y + r0.height, r1.y, r1.y + r1.height);
     }
 
-
 }
 
 /** @example How 2 Numbers
@@ -899,3 +898,24 @@ export function baz() { }
  *           tan(α) = cos(β) = b / a
  */
 export function baf() { }
+
+ /** Masked Numbers
+  * @example const str1 = '5';
+  * console.log(str1.padStart(2, '0'));
+  * // expected output: "05"
+  * const fullNumber = '2034399002125581';
+  * const last4Digits = fullNumber.slice(-4);
+  * const maskedNumber = last4Digits.padStart(fullNumber.length, '*');
+  * console.log(maskedNumber);
+  * // expected output: "************5581"
+  * 
+  * console.log((21..toString(2).padStart(9, '0')));
+  * console.log((33..toString(2).padStart(9, '0')));
+  */
+ export function fus() { }
+ 
+ export function bin2str(txt: string) {
+    return txt.replace(/\s*[01]{8}\s*/g, function(bin) {
+          return String.fromCharCode(parseInt(bin, 2));
+      });
+  }
