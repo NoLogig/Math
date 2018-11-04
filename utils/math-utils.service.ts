@@ -2,23 +2,23 @@
 import { Observable, range, Subscription } from 'rxjs';
 import { scan } from 'rxjs/operators';
 
-type IPythagorasRightTri = { ankathete: number, gegenkathete: undefined, hypothenuse: number }
+export type IPythagorasRightTri = { ankathete: number, gegenkathete: undefined, hypothenuse: number }
     | { ankathete: undefined, gegenkathete: number, hypothenuse: number }
     | { ankathete: number, gegenkathete: number, hypothenuse: undefined };
 
-interface IRightTri {
+    export interface IRightTri {
     ankathete: number;
     gegenkathete: number;
     hypothenuse: number;
 }
 
-interface IGoldenRatio {
+export interface IGoldenRatio {
     main: number;
     major: number;
     minor: number;
 }
 
-interface IParticle {
+export interface IParticle {
     position: IPoint;
     velocity?: IPoint;
     bounce: -1;
@@ -28,7 +28,7 @@ interface IParticle {
     radius: 0;
 }
 
-interface IPoint {
+export interface IPoint {
     x: number;
     y: number;
     z?: number;
