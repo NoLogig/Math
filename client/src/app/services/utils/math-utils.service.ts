@@ -2,15 +2,15 @@
 import { Observable, range, Subscription } from 'rxjs';
 import { scan } from 'rxjs/operators';
 
-export type IPythagorasRightTri = { ankathete: number, gegenkathete: undefined, hypothenuse: number }
-    | { ankathete: undefined, gegenkathete: number, hypothenuse: number }
-    | { ankathete: number, gegenkathete: number, hypothenuse: undefined };
-
-    export interface IRightTri {
-    ankathete: number;
-    gegenkathete: number;
-    hypothenuse: number;
+export interface IRightTriangle {
+    adjacent: number;
+    opposite: number;
+    hypotenuse: number;
 }
+
+export type IPythagorasTriangle = { adjacent: number, opposite: undefined, hypotenuse: number }
+                                | { adjacent: undefined, opposite: number, hypotenuse: number }
+                                | { adjacent: number, opposite: number, hypotenuse: undefined };
 
 export interface IGoldenRatio {
     main: number;
@@ -18,20 +18,65 @@ export interface IGoldenRatio {
     minor: number;
 }
 
-export interface IParticle {
-    position: IPoint;
-    velocity?: IPoint;
-    bounce: -1;
-    friction: 1;
-    gravity: 0;
-    mass: 1;
-    radius: 0;
+export interface ICircle {
+    r: number;
 }
-
+export interface IRectangle {
+    w: number;
+    h: number;
+}
 export interface IPoint {
     x: number;
     y: number;
-    z?: number;
+}
+
+export interface ICirclePoint extends IPoint, ICircle { }
+export interface IRectPoint extends IPoint, IRectangle { }
+
+export interface IParticle extends IPoint {
+    vx: number;
+    vy: number;
+}
+export interface IParticlePhysics {
+    mass?: number;
+    bounce?: number;
+    friction?: number;
+    gravity?: number;
+    springs?: ISpring[];
+    gravitations?: IPoint[];
+}
+
+export interface ICircleShape extends IParticle, ICircle { }
+export interface ICircleParticle extends ICircleShape, IParticlePhysics { }
+
+export interface IRectShape extends IParticle, IRectangle { }
+export interface IRectParticle extends IRectShape, IParticlePhysics { }
+
+export interface IVector extends IPoint {
+
+    getX(): number;
+    setX(n: number): void;
+    getY(): number;
+    setY(n: number): void;
+    getZ(): number;
+    setZ(n: number): void;
+
+    getAngle(): number;
+    setAngle(angle: number): void;
+
+    getLength(): number;
+    setLength(length: number): void;
+
+    addTo(v2: number);
+    subtractFrom(v2: number);
+    multiplyBy(v2: number);
+    divideBy(v2: number);
+}
+
+export interface ISpring {
+    point: IPoint;
+    k: number;
+    length: number;
 }
 
 export class MathUtilsService {
@@ -117,7 +162,7 @@ export class MathUtilsService {
 
     /** Golden Ratio Calculator
      * @param main Main golden ratio segment
-     * @return `IGoldenRatio`: {`main`: `number`; `major`: `number`; `minor`: `number`; }
+     * @return `IGoldenRatio`: {`main`:`number`, `major`:`number`, `minor`:`number`}
      */
     mainGolden(main: number): IGoldenRatio | void {
 
@@ -131,7 +176,7 @@ export class MathUtilsService {
 
     /** Golden Ratio Calculator
      * @param major Major golden ratio segment
-     * @return `IGoldenRatio`: {`main`: `number`; `major`: `number`; `minor`: `number`; }
+     * @return `IGoldenRatio`: {`main`:`number`, `major`:`number`, `minor`:`number`}
      */
     majorGolden(major: number): IGoldenRatio | void {
 
@@ -145,7 +190,7 @@ export class MathUtilsService {
 
     /** Golden Ratio Calculator
      * @param minor Minor golden ratio segment
-     * @return `IGoldenRatio`: {`main`: `number`; `major`: `number`; `minor`: `number`; }
+     * @return `IGoldenRatio`: {`main`:`number`, `major`:`number`, `minor`:`number`}
      */
     minorGolden(minor: number): IGoldenRatio | void {
 
@@ -192,7 +237,7 @@ export class MathUtilsService {
      *  (    10      ) + (       16       ) = 26
      */
     get3D = (x: number, y: number, z: number, cols: number, deeps: number): number => (y * cols + x) + (cols * deeps * z);
-    // set3D = (x: number, y: number, z: number, cols: number, deeps: number, value: any): void => this.MYARRAY[(y * cols + x) + (cols * deeps * z)] = value;
+    // set3D = (x: number, y: number, z: number, cols: number, deeps: number, value: any): void => this.MYARR[(y*cols+x) + (cols*deeps*z)] = value;
 
 
     /** Clamp a value to min/max
@@ -261,29 +306,29 @@ export class MathUtilsService {
     /**
      * @param triRight IPythagorasRightTri Object
      */
-    pythagoras(triRight: IPythagorasRightTri): IRightTri {
+    pythagoras(triRight: IPythagorasTriangle): IRightTriangle {
 
-        let ankathete = triRight.ankathete,
-            gegenkathete = triRight.gegenkathete,
-            hypothenuse = triRight.hypothenuse;
+        let adjacent = triRight.adjacent,
+            opposite = triRight.opposite,
+            hypotenuse = triRight.hypotenuse;
 
-        if (!ankathete) {
+        if (!adjacent) {
             // √( a² = c² - b² )
-            ankathete = Math.sqrt((hypothenuse ** 2) - (gegenkathete ** 2));
-            return { ankathete, gegenkathete, hypothenuse };
+            adjacent = Math.sqrt((hypotenuse ** 2) - (opposite ** 2));
+            return { adjacent, opposite, hypotenuse };
         }
-        if (!gegenkathete) {
+        if (!opposite) {
             // √( b² = c² - a² )
-            gegenkathete = Math.sqrt((hypothenuse ** 2) - (ankathete ** 2));
-            return { ankathete, gegenkathete, hypothenuse };
+            opposite = Math.sqrt((hypotenuse ** 2) - (adjacent ** 2));
+            return { adjacent, opposite, hypotenuse };
         }
         // √( c² = a² + b² )
-        hypothenuse = Math.sqrt((ankathete ** 2) + (gegenkathete ** 2));
-        return { ankathete, gegenkathete, hypothenuse };
+        hypotenuse = Math.sqrt((adjacent ** 2) + (opposite ** 2));
+        return { adjacent, opposite, hypotenuse };
     }
 
     /** Right Triangle - Gegeben: Gegenkathete b & Winkel α in Radiant
-     * @param gegenkathete Side a
+     * @param adjacent Side a
      * @param alphaRad Angle α in Radiant
      * @return Ankathete side a
      */
@@ -743,7 +788,7 @@ export class MathUtilsService {
 
         return false;
     }
-    
+
     randomRange(min, max) {
         return min + Math.random() * (max - min);
     }
@@ -908,12 +953,12 @@ export function baf() { }
   * const maskedNumber = last4Digits.padStart(fullNumber.length, '*');
   * console.log(maskedNumber);
   * // expected output: "************5581"
-  * 
+  *
   * console.log((21..toString(2).padStart(9, '0')));
   * console.log((33..toString(2).padStart(9, '0')));
   */
  export function fus() { }
- 
+
  export function bin2str(txt: string) {
     return txt.replace(/\s*[01]{8}\s*/g, function(bin) {
           return String.fromCharCode(parseInt(bin, 2));
