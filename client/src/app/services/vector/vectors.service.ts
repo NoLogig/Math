@@ -1,25 +1,10 @@
 
-interface IPoint {
-    x: number;
-    y: number;
-    z?: number;
-}
-
-
-interface IVector {
-    x: number;
-    y: number;
-
-    getX(): number;
-    setX(n: number): void;
-}
-
 export class VectorsService {
 
     private _x = 1;
     private _y = 0;
 
-    v: IVector;
+    v;
 
     constructor(x: number, y: number) {
 
