@@ -1,83 +1,7 @@
 
 import { Observable, range, Subscription } from 'rxjs';
 import { scan } from 'rxjs/operators';
-
-export interface IRightTriangle {
-    adjacent: number;
-    opposite: number;
-    hypotenuse: number;
-}
-
-export type IPythagorasTriangle = { adjacent: number, opposite: undefined, hypotenuse: number }
-                                | { adjacent: undefined, opposite: number, hypotenuse: number }
-                                | { adjacent: number, opposite: number, hypotenuse: undefined };
-
-export interface IGoldenRatio {
-    main: number;
-    major: number;
-    minor: number;
-}
-
-export interface ICircle {
-    r: number;
-}
-export interface IRectangle {
-    w: number;
-    h: number;
-}
-export interface IPoint {
-    x: number;
-    y: number;
-}
-
-export interface ICirclePoint extends IPoint, ICircle { }
-export interface IRectPoint extends IPoint, IRectangle { }
-
-export interface IParticle extends IPoint {
-    vx: number;
-    vy: number;
-}
-export interface IParticlePhysics {
-    mass?: number;
-    bounce?: number;
-    friction?: number;
-    gravity?: number;
-    springs?: ISpring[];
-    gravitations?: IPoint[];
-}
-
-export interface ICircleShape extends IParticle, ICircle { }
-export interface ICircleParticle extends ICircleShape, IParticlePhysics { }
-
-export interface IRectShape extends IParticle, IRectangle { }
-export interface IRectParticle extends IRectShape, IParticlePhysics { }
-
-export interface IVector extends IPoint {
-
-    getX(): number;
-    setX(n: number): void;
-    getY(): number;
-    setY(n: number): void;
-    getZ(): number;
-    setZ(n: number): void;
-
-    getAngle(): number;
-    setAngle(angle: number): void;
-
-    getLength(): number;
-    setLength(length: number): void;
-
-    addTo(v2: number);
-    subtractFrom(v2: number);
-    multiplyBy(v2: number);
-    divideBy(v2: number);
-}
-
-export interface ISpring {
-    point: IPoint;
-    k: number;
-    length: number;
-}
+import { IGoldenRatio, IPoint, IPythagorasTriangle, ITriangle } from '../../interfaces/math.interfaces';
 
 export class MathUtilsService {
 
@@ -306,7 +230,7 @@ export class MathUtilsService {
     /**
      * @param triRight IPythagorasRightTri Object
      */
-    pythagoras(triRight: IPythagorasTriangle): IRightTriangle {
+    pythagoras(triRight: IPythagorasTriangle): ITriangle {
 
         let adjacent = triRight.adjacent,
             opposite = triRight.opposite,
@@ -596,8 +520,8 @@ export class MathUtilsService {
         if (n % 3 === 0) { return 3; }
         if (n % 5 === 0) { return 5; }
 
-        let m = Math.sqrt(n);
-        for (let i = 7; i <= m; i += 30) {
+        let n2 = Math.sqrt(n);
+        for (let i = 7; i <= n2; i += 30) {
             if (n % i === 0) { return i; }
             if (n % (i + 4) === 0) { return i + 4; }
             if (n % (i + 6) === 0) { return i + 6; }
@@ -831,6 +755,9 @@ export class MathUtilsService {
     }
 
 }
+let m = new MathUtilsService;
+export default m;
+
 
 /** @example How 2 Numbers
  * let binNum = 0b1101;               // Binary
@@ -852,7 +779,7 @@ export class MathUtilsService {
  *
  * let hex2deci = parseInt(hex, 16);  // Convert a hexadecimal string to a number
  */
-export function bar() { }
+export function n_alpha() { }
 
 /** @example #### V8 NOTES ####
  *
@@ -868,7 +795,7 @@ export function bar() { }
  * → -9 223 372 036 854 775 808n
  *   ^ negative, cuz of overflow
  */
-export function biz() { }
+export function n_bravo() { }
 
 /** @example How 2 access an array iterator,
  *  for anything that implements the iterable protocol
@@ -884,7 +811,7 @@ export function biz() { }
  * → { value: 3, done: false }
  * → { value: undefined, done: true }
  */
-export function foo() { }
+export function n_charlie() { }
 
 /** @example Allgemeines (schiefwinkliges) Dreieck
  * Definition:
@@ -931,7 +858,7 @@ export function foo() { }
  *       cos(x±y) = cos(x)    cos(y)     ∓ sin(x)  sin(y)
  *       tan(x±y) = tan(x)  ± tan(y) / 1 ∓ tan(x)  tan(y)
  */
-export function baz() { }
+export function n_delta() { }
 
 /** Right-Triangle ⊿
  * @description Die Seiten a und b des rechtwinkligen Dreiecks, die den rechten Winkel einschließen sind die Katheten.
@@ -942,7 +869,7 @@ export function baz() { }
  *           cos(α) = sin(β) = a / c
  *           tan(α) = cos(β) = b / a
  */
-export function baf() { }
+export function n_echo() { }
 
  /** Masked Numbers
   * @example const str1 = '5';
@@ -957,10 +884,11 @@ export function baf() { }
   * console.log((21..toString(2).padStart(9, '0')));
   * console.log((33..toString(2).padStart(9, '0')));
   */
- export function fus() { }
+export function n_foxtrot() { }
 
- export function bin2str(txt: string) {
+/** Binary 2 String */
+export function n_golf(txt: string) {
     return txt.replace(/\s*[01]{8}\s*/g, function(bin) {
-          return String.fromCharCode(parseInt(bin, 2));
-      });
-  }
+        return String.fromCharCode(parseInt(bin, 2));
+    });
+}

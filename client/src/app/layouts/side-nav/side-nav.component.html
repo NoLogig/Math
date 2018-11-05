@@ -1,0 +1,51 @@
+<mat-sidenav-container>
+
+  <mat-sidenav #navigation fixedInViewport="true"
+  [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+  [mode]="'side'"
+  [opened]="!(isHandset$ | async)">
+
+    <mat-toolbar (click)="navigation.toggle();">Menu</mat-toolbar>
+
+    <mat-nav-list>
+      <a mat-list-item href="#">Link 1</a>
+      <a mat-list-item href="#">Link 2</a>
+      <a mat-list-item href="#">Link 3</a>
+    </mat-nav-list>
+
+  </mat-sidenav>
+
+  <mat-sidenav #settings fixedInViewport="true"
+  position="end" 
+  role="settings"
+  mode="over">
+
+    <mat-toolbar color="primary">
+        
+      <button mat-icon-button type="button" (click)="settings.toggle();">
+        <mat-icon aria-label="Side settings toolbar icon" class="gear-spinner">settings</mat-icon>
+      </button>
+
+    </mat-toolbar>
+
+      <mat-list>
+        <a mat-list-item>Setting 1</a>
+        <a mat-list-item>Setting 2</a>
+      </mat-list>
+
+    </mat-sidenav>
+
+  <mat-sidenav-content>
+    
+    <nlg-header (openedNavigation)="navigation.toggle()" (openedSettings)="settings.toggle()"></nlg-header>
+    
+    <!-- Content -->
+    <mat-card class="main-content">
+
+      <router-outlet></router-outlet>
+  
+    </mat-card>
+    
+  </mat-sidenav-content>
+
+</mat-sidenav-container>
