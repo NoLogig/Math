@@ -1,10 +1,27 @@
 {
   "name": "dev-math",
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "author": "Max Schweigerdt / NoLogig",
+  "description": "",
+  "keywords": [
+    "Angular 7",
+    "Math",
+    "Theorem",
+    "Canvas"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NoLogig/Math"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": "8.12.0",
+    "npm": "6.1.0"
+  },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "ng serve -o --port 4200",
+    "build": "ng build --prod --source-map=false --aot",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
