@@ -1,7 +1,7 @@
 
 import { Observable, range, Subscription } from 'rxjs';
 import { scan } from 'rxjs/operators';
-import { IGoldenRatio, IPoint, IPythagorasTriangle, ITriangle } from '../../interfaces/math.interfaces';
+import { IGoldenRatio, IPoint, IPythagorasTriangle, ITriangle, IRGBA, ICircleShape } from '../../interfaces/math.interfaces';
 
 export class MathUtilsService {
 
@@ -20,67 +20,10 @@ export class MathUtilsService {
         1, 2, 3, 5, 7, 9, 11, 13, 17, 19
     ];
 
-    /* Tests */
-    primeAtkin: number[];
-    primeBuehler: number[];
-    primeEratosthes: number;
-    primeModuloTrival: number;
-    primeTestDivision: number[];
-
     wieferichPrimes = [1093, 3511];
     wilsonPrimes = [5, 13, 563];
 
     goldenRatio = 1.61803398875;
-
-    particle = {
-        position: null,
-        velocity: null,
-        mass: 1,
-        radius: 0,
-        bounce: -1,
-        friction: 1,
-        gravity: 0,
-
-        create: function (x, y, speed, direction, grav) {
-            let obj = Object.create(this);
-            obj.position = this.vector.create(x, y);
-            obj.velocity = this.vector.create(0, 0);
-            obj.velocity.setLength(speed);
-            obj.velocity.setAngle(direction);
-            obj.gravity = this.vector.create(0, grav || 0);
-            return obj;
-        },
-
-        accelerate: function (accel) {
-            this.velocity.addTo(accel);
-        },
-
-        update: function () {
-            this.velocity.multiplyBy(this.friction);
-            this.velocity.addTo(this.gravity);
-            this.position.addTo(this.velocity);
-        },
-
-        angleTo: function (p2) {
-            return Math.atan2(p2.position.getY() - this.position.getY(), p2.position.getX() - this.position.getX());
-        },
-
-        distanceTo: function (p2) {
-            let dx = p2.position.getX() - this.position.getX(),
-                dy = p2.position.getY() - this.position.getY();
-
-            return Math.sqrt(dx * dx + dy * dy);
-        },
-
-        gravitateTo: function (p2) {
-            let grav = this.vector.create(0, 0),
-                dist = this.distanceTo(p2);
-
-            grav.setLength(p2.mass / (dist * dist));
-            grav.setAngle(this.angleTo(p2));
-            this.velocity.addTo(grav);
-        }
-    };
 
     constructor() { }
 
@@ -164,12 +107,25 @@ export class MathUtilsService {
     // set3D = (x: number, y: number, z: number, cols: number, deeps: number, value: any): void => this.MYARR[(y*cols+x) + (cols*deeps*z)] = value;
 
 
-    /** Clamp a value to min/max
-     * @example if(val < min) return min;
-     *          if(val > max) return max;
+    /** Clamp a value to Min/Max
+     * @example if(n < min) return min;
+     *          if(n > max) return max;
      *          return value;
      */
-    clamp = (val: number, min: number, max: number): number => Math.min(Math.max(val, Math.min(min, max)), Math.max(min, max));
+    clamp = (n: number, min: number, max: number): number => Math.min(Math.max(n, Math.min(min, max)), Math.max(min, max));
+
+    /** Lock a value to Min/Max.
+     * @description Check whether a value has gone off Min/Max (canvas edges).
+     *     If so, it makes the value wrap around to the opposite.
+     * @example -  Min  Val   Max
+     *            -5    x    23
+     *       Max ←|____|____|→ Min
+     */
+    lock = (n: number, min: number, max: number): number => {
+        if (n > min && n < max) { return n; }
+        if (n > max) { return min; }
+        return max;
+    }
 
     /** Linear Normalization convert a value from a range into a normed value between 0-1
      * @example  Min  Val    Max
@@ -200,10 +156,10 @@ export class MathUtilsService {
     mapNormLerp = (val: number, srcMin: number, srcMax: number, destMin: number, destMax: number): number => this.lerp(this.norm(val, srcMin, srcMax), destMin, destMax);
 
     /*
-        // p1 for mouse.event.Client X/Y
-        let dx = p1.x - p0.x,
-            dy = p1.y - p0.y;
-        return √c² = a² + b³
+    let dx = p1.x - p0.x,
+    dy = p1.y - p0.y;
+    return √c² = a² + b³
+    // Hint: p1 for mouse.event.Client X/Y
      */
     distancePoints = (p0: IPoint, p1: IPoint): number => Math.sqrt(((p1.x - p0.x) ** 2) + ((p1.y - p0.y) ** 2));
 
@@ -708,7 +664,7 @@ export class MathUtilsService {
                 if (j === c_wurzel) { p_modulo1.push(i); }
             }
         }
-        this.primeModuloTrival = p_modulo1.length;	// gibt die Anzahl Primzahlen aus
+        // this.primeModuloTrival = p_modulo1.length;	// gibt die Anzahl Primzahlen aus
 
         return false;
     }
@@ -757,6 +713,158 @@ export class MathUtilsService {
 }
 let m = new MathUtilsService;
 export default m;
+
+
+
+export class CanvasUtilsService {
+
+    particle = {
+        position: null,
+        velocity: null,
+        mass: 1,
+        radius: 0,
+        bounce: -1,
+        friction: 1,
+        gravity: 0,
+
+        create: function (x, y, speed, direction, grav) {
+            let obj = Object.create(this);
+            obj.position = this.vector.create(x, y);
+            obj.velocity = this.vector.create(0, 0);
+            obj.velocity.setLength(speed);
+            obj.velocity.setAngle(direction);
+            obj.gravity = this.vector.create(0, grav || 0);
+            return obj;
+        },
+
+        accelerate: function (accel) {
+            this.velocity.addTo(accel);
+        },
+
+        update: function () {
+            this.velocity.multiplyBy(this.friction);
+            this.velocity.addTo(this.gravity);
+            this.position.addTo(this.velocity);
+        },
+
+        angleTo: function (p2) {
+            return Math.atan2(p2.position.getY() - this.position.getY(), p2.position.getX() - this.position.getX());
+        },
+
+        distanceTo: function (p2) {
+            let dx = p2.position.getX() - this.position.getX(),
+                dy = p2.position.getY() - this.position.getY();
+
+            return Math.sqrt(dx * dx + dy * dy);
+        },
+
+        gravitateTo: function (p2) {
+            let grav = this.vector.create(0, 0),
+                dist = this.distanceTo(p2);
+
+            grav.setLength(p2.mass / (dist * dist));
+            grav.setAngle(this.angleTo(p2));
+            this.velocity.addTo(grav);
+        }
+    };
+
+    constructor() { }
+
+    /** Get RGBA of pixel at x/y coordinates
+     * @param imgData
+     *+  `data`:`number[]` imgData in RGBA order as 0 to 255 ints
+     *+  `height`:`number` Height dimension of `data` in pixels
+     *+  `width`:`number` Width dimension of `data` in pixels
+     *
+     * @returns Object containing RGBA integers of pixel at x/y coordinate
+     * @example One Pixel = 4 Elements [R, G, B, A];
+     *              index = ( y * width + x ) * 4;
+     *
+     *   red   = index;
+     *   green = index + 1;
+     *   blue  = index + 2;
+     *   alpha = index + 3;
+     *
+     */
+    getPixel(x: number, y: number, imgData: ImageData): IRGBA {
+
+        let index = (y * imgData.width + x) * 4,
+            r = imgData.data[index++],
+            g = imgData.data[index++],
+            b = imgData.data[index++],
+            a = imgData.data[index] / 255;
+
+        return { r, g, b, a };
+    }
+
+    /**
+     * document.body.addEventListener("mousemove", function(event) {
+            context.clearRect(0, 0, width, height);
+            drawGrid();
+
+            var x = utils.roundNearest(event.clientX, gridSize),
+                y = utils.roundNearest(event.clientY, gridSize);
+
+            context.beginPath();
+            context.arc(x, y, 10, 0, Math.PI * 2);
+            context.fill();
+        });
+     */
+    drawCanvasGrid(ctx: CanvasRenderingContext2D, width: number, height: number, gridSize: number, strStyle: string): void {
+        ctx.beginPath();
+        ctx.strokeStyle = '#f0f';
+        for (let x = 0, y = 0; x <= width && y <= height; x += gridSize, y += gridSize) {
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, height);
+
+            ctx.moveTo(0, y);
+            ctx.lineTo(width, y);
+        }
+        return ctx.stroke();
+    }
+
+    attachEvent(ele: HTMLElement, event: string, fn: (e: KeyboardEvent | MouseEvent) => void) {
+        ele.addEventListener(event, fn);
+    }
+
+    detachEvent(ele: HTMLElement, event: string, fn: (e: KeyboardEvent | MouseEvent) => void) {
+        ele.removeEventListener(event, fn);
+    }
+
+    drawCircle(ctx: CanvasRenderingContext2D, { x, y, r }: ICircleShape): void {
+
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, 6.29);
+      return ctx.fill();
+    }
+
+    drawLine(ctx: CanvasRenderingContext2D, p1: IPoint, p2: IPoint): void {
+
+      ctx.beginPath();
+      ctx.moveTo(p1.x, p1.y);
+      ctx.lineTo(p2.x, p2.y);
+      return ctx.stroke();
+    }
+
+    createRndShapes(n: number, x_Max = 50, y_Max = 50, r_Max = 8, vx_Max = 4, vy_Max = 4): ICircleShape[] {
+
+      let _shapes: ICircleShape[] = [];
+
+      for (let i = 0; i < n - 1; i++) {
+
+        _shapes.push({
+          x: Math.random() * x_Max,
+          y: Math.random() * y_Max,
+          r: Math.random() * r_Max + 2,
+          vx: Math.random() * vx_Max - vx_Max * .5,
+          vy: Math.random() * vy_Max - vy_Max * .5,
+        });
+      }
+
+      return _shapes;
+    }
+}
+
 
 
 /** @example How 2 Numbers
@@ -871,24 +979,24 @@ export function n_delta() { }
  */
 export function n_echo() { }
 
- /** Masked Numbers
-  * @example const str1 = '5';
-  * console.log(str1.padStart(2, '0'));
-  * // expected output: "05"
-  * const fullNumber = '2034399002125581';
-  * const last4Digits = fullNumber.slice(-4);
-  * const maskedNumber = last4Digits.padStart(fullNumber.length, '*');
-  * console.log(maskedNumber);
-  * // expected output: "************5581"
-  *
-  * console.log((21..toString(2).padStart(9, '0')));
-  * console.log((33..toString(2).padStart(9, '0')));
-  */
+/** Masked Numbers
+ * @example const str1 = '5';
+ * console.log(str1.padStart(2, '0'));
+ * // expected output: "05"
+ * const fullNumber = '2034399002125581';
+ * const last4Digits = fullNumber.slice(-4);
+ * const maskedNumber = last4Digits.padStart(fullNumber.length, '*');
+ * console.log(maskedNumber);
+ * // expected output: "************5581"
+ *
+ * console.log((21..toString(2).padStart(9, '0')));
+ * console.log((33..toString(2).padStart(9, '0')));
+ */
 export function n_foxtrot() { }
 
 /** Binary 2 String */
 export function n_golf(txt: string) {
-    return txt.replace(/\s*[01]{8}\s*/g, function(bin) {
+    return txt.replace(/\s*[01]{8}\s*/g, function (bin) {
         return String.fromCharCode(parseInt(bin, 2));
     });
 }
