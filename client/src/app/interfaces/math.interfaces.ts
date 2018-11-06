@@ -75,3 +75,10 @@ export interface ISpring {
     k: number;
     length: number;
 }
+
+export interface IRGBA {
+    r: number;
+    g: number;
+    b: number;
+    a: number;
+}
