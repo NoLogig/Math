@@ -1,0 +1,107 @@
+<!-- Mat-Grid -->
+<div class="grid-container">
+
+  <mat-grid-list cols="6" rowHeight="30vh">
+
+    <mat-grid-tile [colspan]="4" [rowspan]="3">
+      <mat-card class="dashboard-card">
+
+        <mat-card-header>
+          <mat-card-title>
+
+            <span>{{currentVideo ? currentVideo : 'NLG Player'}}</span>
+            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+
+            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" xPosition="before">
+              <button mat-menu-item>Expand</button>
+              <button mat-menu-item>Remove</button>
+            </mat-menu>
+
+          </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content class="dashboard-card-content">
+
+          <mat-divider></mat-divider>
+
+          <video #player [controls]="v.controls" [poster]="v.poster" (mousewheel)="scrollVolume($event)">
+
+          </video>
+
+          <form>
+            <!-- File Reader -->
+            <input type="file" (change)="selectList = selectLocalMedias(fred.files);" #fred hidden multiple />
+
+            <button mat-raised-button color="primary" (click)="fred.click();">Select</button>
+
+            <mat-form-field class="playlist-form">
+              <input #plname matInput placeholder="Playlist Name" value="" />
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" (click)="select2Paylist(plname.value)"
+              [disabled]="fred.files[0] ? false : 'disabled'">Add²List</button>
+            <button mat-raised-button color="primary" (click)="playRnd();">Play Rnd</button>
+
+            <button mat-raised-button color="primary" (click)="test()">Log Tests</button>
+
+          </form>
+
+        </mat-card-content>
+
+      </mat-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile *ngFor="let card of cards | async; let i = index;" [colspan]="card.cols" [rowspan]="card.rows">
+      <mat-card class="dashboard-card">
+
+        <mat-card-header>
+          <mat-card-title>
+
+            <div *ngIf="i == 0">SelectList</div>
+            <div *ngIf="i == 1">PlayLists</div>
+
+            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+
+            <mat-menu #menu="matMenu" xPosition="before">
+              <button mat-menu-item>Expand</button>
+              <button mat-menu-item>Remove</button>
+            </mat-menu>
+
+          </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content class="dashboard-card-content">
+
+
+          <div *ngIf="i === 0">
+            <mat-nav-list class="selectlist playlist">
+              <mat-list-item *ngFor="let item of selectList" color="primary"
+                (click)="videoPlayer.src = item.url;  currentVideo = item.name">
+                {{item.name}}
+              </mat-list-item>
+            </mat-nav-list>
+          </div>
+
+          <div *ngIf="i === 1">
+            <mat-action-list class="playlist">
+              <mat-list-item mat-button *ngFor="let item of playList" color="warn" (click)="selectList = item.files">
+                {{item.name}}
+              </mat-list-item>
+            </mat-action-list>
+          </div>
+
+        </mat-card-content>
+
+      </mat-card>
+    </mat-grid-tile>
+
+  </mat-grid-list>
+
+</div>

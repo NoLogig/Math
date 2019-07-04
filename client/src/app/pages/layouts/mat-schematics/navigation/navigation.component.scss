@@ -1,0 +1,22 @@
+.sidenav-container {
+  height: 100%;
+  width: auto;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+// router-outlet {
+//   width: 100vw;
+//   height: 100vh;
+// }

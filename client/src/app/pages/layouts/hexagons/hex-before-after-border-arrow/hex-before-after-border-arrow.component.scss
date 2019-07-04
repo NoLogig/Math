@@ -1,0 +1,126 @@
+.hex-border-arrow {
+    width: 100px;
+    height: 110px;
+    position: relative;
+    background-image: url(https://www.html5rocks.com/en/tutorials/speed/img-compression/len_std.jpg);
+    background-size: cover;
+    border: 1px solid crimson;
+}
+
+.hex-border-arrow>div {
+    width: 100px;
+    height: 60px;
+    position: absolute;
+    top: 23%;
+    left: 0;
+    background-color: transparent;
+    border: 1px dashed aqua;
+    box-sizing: border-box;
+}
+
+.hex-border-arrow::before {
+    width: 0;
+    height: 0;
+    content: " ";
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    border-left: 50px solid #444;
+    border-right: 50px solid #444;
+    border-top: 25px solid transparent;
+}
+
+.hex-border-arrow::after {
+    content: " ";
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    border-left: 50px solid #444;
+    border-right: 50px solid #444;
+    border-bottom: 25px solid transparent;
+}
+
+// ######   ######
+.hex-container-2 {
+    margin: 0px auto;
+    width: 110px;
+    height: 100px;
+    background-image: url(https://www.html5rocks.com/en/tutorials/speed/img-compression/len_std.jpg);
+    background-size: cover;
+    border: 1px solid crimson;
+}
+
+.center {
+    width: 58px;
+    height: 98px;
+    border: 1px dashed aqua;
+    float: left;
+}
+
+.left {
+    float: left;
+    width: 0;
+    height: 0;
+    border-top: 50px solid #444;
+    border-bottom: 50px solid #444;
+    border-right: 25px solid transparent;
+    line-height: 50px;
+    font-size: 50px;
+}
+
+.right {
+    float: left;
+    width: 0;
+    height: 0;
+    border-top: 50px solid #444;
+    border-bottom: 50px solid #444;
+    border-left: 25px solid transparent;
+    line-height: 50px;
+    font-size: 50px;
+}
+
+/* #### #### */
+
+.hexa::before {
+    content: " ";
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: -30px;
+    border-left: 52px solid transparent;
+    border-right: 52px solid transparent;
+    border-bottom: 30px solid #6C6;
+}
+
+.hexa {
+    background-color: #6C6;
+    width: 104px;
+    height: 60px;
+    position: relative;
+    margin-top: 30px;
+    float: left;
+    margin: 1px;
+}
+
+.hexa::after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: -30px;
+    border-top: 30px solid #6C6;
+    border-left: 52px solid transparent;
+    border-right: 52px solid transparent;
+}
+
+.hexa-row-clear {
+    clear: both;
+    margin-bottom: 30px;
+}
+
+.hexa-row-clear:nth-child(even)+div {
+    margin-left: -52px;
+}

@@ -1,0 +1,27 @@
+<mat-toolbar color="primary" [ngStyle]="{ right: '0px' }">
+
+  <!-- Navigation -->
+  <button type="button" mat-button aria-label="Toggle sidenav" (click)="this.openNavigation();">
+    <mat-icon aria-label="Side navigation toggle icon">menu</mat-icon>
+  </button>
+  
+  <!-- *ngIf="!this.state" -->
+  <span>{{title}}</span> 
+
+
+  <!-- Links -->
+  <nav mat-tab-nav-bar>
+
+    <a mat-tab-link color="primary" #rla="routerLinkActive" routerLinkActive [active]="rla.isActive" [routerLink]=""><mat-icon>home</mat-icon></a>
+
+  </nav>
+
+  <!-- SpaceFiller -->
+  <span class="flex-space-filler"><!-- {{title}} --></span>
+
+  <!-- Settings -->
+  <button type="button" mat-button aria-label="Toggle settings" (click)="this.openSettings()">
+    <mat-icon aria-label="Side settings toggle icon">settings</mat-icon>
+  </button>
+
+</mat-toolbar>

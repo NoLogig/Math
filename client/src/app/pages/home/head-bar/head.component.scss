@@ -1,0 +1,25 @@
+// :host {
+// }
+
+// /* This fills the remaining space, by using flexbox. 
+//    Every toolbar row uses a flexbox row layout. */
+.flex-space-filler {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+mat-toolbar {
+  height: 50px;
+  overflow-x: scroll;
+  padding: 0;
+
+  // min-width: 160px;
+  // width: 100%;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// a[mat-tab-link] {
+//     min-width: 64px;
+// }

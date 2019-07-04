@@ -1,0 +1,111 @@
+/* my test using gradient */
+
+.svg-template {
+    position: absolute;
+}
+
+.honeycomb {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    width: 860px;
+    height: 800px;
+    border: 1px solid #DDD;
+    overflow: hidden;
+}
+
+.honeycomb li {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+}
+
+.honeycomb li:nth-child(1) {
+    top: 0;
+    left: 0;
+}
+
+.honeycomb li:nth-child(2) {
+    top: 0;
+    left: 290px;
+}
+
+.honeycomb li:nth-child(3) {
+    top: 0;
+    left: 580px;
+}
+
+.honeycomb li:nth-child(4) {
+    top: 240px;
+    left: 145px;
+}
+
+.honeycomb li:nth-child(5) {
+    top: 240px;
+    left: 435px;
+}
+
+.honeycomb li:nth-child(6) {
+    top: 240px;
+    left: 725px;
+}
+
+.honeycomb li a {
+    cursor: pointer;
+}
+
+.honeycomb li a:hover image {
+    opacity: 0.5;
+}
+
+/* SVG way */
+
+.hex {
+    position: relative;
+    height: 100px;
+    min-width: 100px;
+    padding: 12px 24px;
+    margin: 4px;
+    float: left;
+    font-weight: bold;
+    text-align: center;
+}
+
+.hex.gradient-bg {
+    color: white;
+}
+
+.hex.gradient-border {
+    color: rgb(199, 41, 41);
+}
+
+.hex svg {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
+}
+
+path {
+    stroke: url(#brdgrad);
+    stroke-width: 7;
+    /* border width */
+}
+
+.hex.gradient-bg path {
+    fill: url(#bggrad);
+}
+
+.hex.gradient-border path {
+    fill: rgb(245, 246, 248);
+}
+
+span {
+    display: block;
+    margin-top: 50px;
+    padding: 8px;
+    transform: translateY(-50%);
+}

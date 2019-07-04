@@ -1,0 +1,51 @@
+.inside-hex {
+    width: 104px;
+    height: 120px;
+    position: relative;
+    margin-right: 16px;
+    overflow: hidden;
+    background-color: #64C7CC;
+    background-image: url(https://www.html5rocks.com/en/tutorials/speed/img-compression/len_std.jpg);
+    background-size: cover;
+    float: left;
+}
+
+.inside-hex > div {
+    width: 0;
+    height: 0;
+    position: absolute;
+    border-left: 52px solid transparent;
+    border-right: 52px solid transparent;
+}
+
+.ih-row-clear+div {
+    margin-left: 60px;
+    clear: both;
+}
+
+.ih-top {
+    top: 0;
+    border-top: 30px solid #333;
+}
+
+.ih-bottom {
+    bottom: 0;
+    border-top: 0px solid #333;
+    border-bottom: 30px solid #333;
+}
+
+.ih-top-l {
+    right: 50%;
+}
+
+.ih-top-r {
+    left: 50%;
+}
+
+.ih-bottom-r {
+    left: 50%;
+}
+
+.ih-bottom-l {
+    right: 50%;
+}

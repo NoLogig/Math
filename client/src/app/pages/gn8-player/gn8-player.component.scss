@@ -1,0 +1,97 @@
+
+.grid-container {
+  margin: 20px;
+}
+
+video {
+  width: 100%;
+}
+
+.dashboard-card {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.more-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+
+// .dashboard-card-content {
+//   text-align: center;
+// }
+
+.dashboard-card::-webkit-scrollbar {
+  display: none;
+}
+
+// .example-header-image {
+//   // background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+//   background-size: cover;
+// }
+
+// .gn8-media {
+//   position: absolute;
+//   top: 0;
+//   z-index: -1;
+//   height: 300px;
+//   background-image: url("./images/RickandMortys2.jpg");
+//   background-size: cover;
+// }
+
+// .media-container {
+//   display: flex;
+//   align-content: flex-start;
+// }
+
+// .mat-card-image {
+//   margin: 0;
+//   width: 100%;
+//   height: 100%;
+// }
+
+.mat-card-image:first-child {
+  // margin-top: -8px;
+}
+
+.gn8-media-header {
+  // height: 0;
+}
+
+// .gn8-media-title {
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   background-color: transparent;
+//   padding-left: 8px;
+//   background-image: linear-gradient(180deg, rgba(0, 0, 0, .8) 20%, transparent);
+//   width: 100%;
+//   box-sizing: border-box;
+// }
+
+// .gn8-media-actions {
+//   padding: 8px 16px;
+//   background-color: transparent;
+//   position: absolute;
+//   bottom: 0;
+// }
+
+
+// .playlist-form {
+//   margin: 0 8px;
+// }
+
+// .playlist {
+//   width: auto;
+// }
+
+// .example-card {
+//   max-width: 200px;
+//   padding: 0;
+// }
